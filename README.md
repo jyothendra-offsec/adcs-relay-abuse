@@ -16,3 +16,7 @@ Start with the [assessment report](report.md). Read the environment and attack f
 ## Hardening priorities
 
 Review Extended Protection on applicable enrollment endpoints, restrict NTLM where feasible, and review enrollment permissions and template scope. Validate each control on the endpoint where it applies. Review web enrollment, CA audit and domain authentication records together to distinguish an attempted relay from successful issuance and use.
+
+## Usage terms
+
+Original material owned by 0xjyothendra requires written permission for modification or redistribution. Third-party content, assets, and earlier licensed releases retain their applicable terms. See [LICENSE](LICENSE).
