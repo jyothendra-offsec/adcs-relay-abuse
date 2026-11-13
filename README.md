@@ -1,74 +1,18 @@
-# Full Active Directory Compromise via ADCS Relay and PetitPotam Coercion
+# AD CS NTLM Relay Lab
 
-## Overview
+A Windows Server 2022 lab report on the interaction between NTLM authentication, Certificate Authority web enrollment, and certificate-based identity. The report records certificate-based authentication as the domain controller account in the lab. That result applies to the documented configuration.
 
-This project demonstrates a complete Active Directory attack chain involving:
+## Read the assessment
 
-- AS-REP Roasting
-- SMB Enumeration
-- ADCS Discovery
-- PetitPotam Coercion
-- NTLM Relay
-- Certificate Abuse
+Start with the [assessment report](report.md). Read the environment and attack flow first, then check the evidence for each transition. Use the detection and mitigation sections to plan a controlled retest.
 
-The objective was to obtain Domain Controller-level authentication through certificate-based attacks.
+| Review question | Evidence to collect |
+| --- | --- |
+| Can the enrollment endpoint accept relayed authentication? | Effective IIS authentication settings, HTTPS configuration, and Extended Protection policy |
+| Which identity received a certificate? | Enrollment request record, requester, template and certificate metadata |
+| Did the resulting certificate establish access? | Authentication evidence tied to the requester and the resulting identity |
+| Did hardening stop the same path? | Repeat the authorized lab test after changing one control and compare the enrollment outcome |
 
----
+## Hardening priorities
 
-## Environment
-
-- Windows Server 2022
-- Active Directory
-- ADCS Enabled
-- SMB Signing Disabled
-
----
-
-## Attack Path
-
-1. Enumerated Active Directory users
-2. Performed AS-REP roasting
-3. Cracked user credentials
-4. Enumerated SMB shares
-5. Identified ADCS infrastructure
-6. Triggered PetitPotam coercion
-7. Relayed NTLM authentication to ADCS
-8. Obtained Domain Controller certificate
-
----
-
-## Tools Used
-
-- Nmap
-- Enum4Linux
-- Kerbrute
-- NetExec
-- JohnTheRipper
-- PetitPotam
-- Impacket
-- Certipy
-
----
-
-## Impact
-
-Successful exploitation allowed certificate-based authentication as the Domain Controller account.
-
----
-
-## Detection Opportunities
-
-- Monitor EFSRPC coercion activity
-- Detect abnormal certificate enrollment
-- Alert on NTLM relay behavior
-- Monitor ADCS enrollment logs
-
----
-
-## Mitigations
-
-- Enable SMB signing
-- Disable NTLM where possible
-- Restrict ADCS templates
-- Enforce Extended Protection for Authentication (EPA)
-- Patch coercion vectors
+Review Extended Protection on applicable enrollment endpoints, restrict NTLM where feasible, and review enrollment permissions and template scope. Validate each control on the endpoint where it applies. Review web enrollment, CA audit and domain authentication records together to distinguish an attempted relay from successful issuance and use.
